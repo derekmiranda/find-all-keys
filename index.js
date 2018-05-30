@@ -25,6 +25,19 @@ function accountForUnusualKeys(key) {
 	return key
 }
 
+function processKey(key, baseKey = '') {
+	const isUnusual = /\W/.test(key)
+	const isNum = /^\d+$/.test(key)
+	if (isUnusual) {
+		// escape any double-quotes
+		key = key.replace(/"/g, '\\"')
+		return `${baseKey}["${key}"]`
+	} else if (isNum) {
+		return `${baseKey}[${key}]`
+	}
+	return baseKey ? `${baseKey}.${key}` : key
+}
+
 function _searchObj(obj, predicate, baseKey = '') {
 	// mark obj as seen
 	_seenObjs.set(obj, true)
@@ -39,8 +52,7 @@ function _searchObj(obj, predicate, baseKey = '') {
 			continue
 		}
 		
-		key = accountForUnusualKeys(key)
-		const keyStr = baseKey ? `${baseKey}.${key}` : key
+		const keyStr = processKey(key, baseKey)
 		if (typeof predicate === 'function' && predicate(val)) {
 			matchingKeys.push(keyStr)
 		} else if (val === predicate) {
