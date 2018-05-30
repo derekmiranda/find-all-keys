@@ -34,7 +34,7 @@ function _searchObj(obj, predicate, baseKey = '') {
 			matchingKeys.push(keyStr)
 		} else if (val === predicate) {
 			matchingKeys.push(keyStr)
-		} else if (typeof val === 'object') {
+		} else if (val && typeof val === 'object') {
 			const recursivelyFoundKeys = _searchObj(val, predicate, keyStr)
 
 			if (recursivelyFoundKeys) {
