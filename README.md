@@ -4,4 +4,4 @@ Similar to Lodash Object find function, except returns all instances where predi
 
 ## NOTE
 
-Uses ES6 Map object to store object references
+Uses ES6 WeakMap object to store object references

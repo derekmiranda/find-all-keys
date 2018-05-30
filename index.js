@@ -9,10 +9,10 @@
  */
 
 // cache to prevent revisiting seen keys
-const _seenObjs = new Map()
 
 function findAllKeys(obj, predicate) {
-	return _searchObj(obj, predicate)
+	const _seenObjs = new WeakMap()
+	return _searchObj(obj, predicate, _seenObjs)
 }
 
 function accountForUnusualKeys(key) {
@@ -38,7 +38,7 @@ function processKey(key, baseKey = '') {
 	return baseKey ? `${baseKey}.${key}` : key
 }
 
-function _searchObj(obj, predicate, baseKey = '') {
+function _searchObj(obj, predicate, _seenObjs, baseKey = '') {
 	// mark obj as seen
 	_seenObjs.set(obj, true)
 	
@@ -58,7 +58,7 @@ function _searchObj(obj, predicate, baseKey = '') {
 		} else if (val === predicate) {
 			matchingKeys.push(keyStr)
 		} else if (val && typeof val === 'object') {
-			const recursivelyFoundKeys = _searchObj(val, predicate, keyStr)
+			const recursivelyFoundKeys = _searchObj(val, predicate, _seenObjs, keyStr)
 
 			if (recursivelyFoundKeys) {
 				matchingKeys = matchingKeys.concat(recursivelyFoundKeys)
