@@ -15,6 +15,16 @@ function findAllKeys(obj, predicate) {
 	return _searchObj(obj, predicate)
 }
 
+function accountForUnusualKeys(key) {
+	const isUnusual = /\W/.test(key)
+	if (isUnusual) {
+		// escape any double-quotes
+		key = key.replace(/"/g, '\\"')
+		return `["${key}"]`
+	}
+	return key
+}
+
 function _searchObj(obj, predicate, baseKey = '') {
 	// mark obj as seen
 	_seenObjs.set(obj, true)
@@ -22,13 +32,14 @@ function _searchObj(obj, predicate, baseKey = '') {
 	const keys = Object.keys(obj)
 	let matchingKeys = []
 	
-	for (const key of keys) {
+	for (let key of keys) {
 		const val = obj[key]
 		
 		if (typeof val === 'object' && _seenObjs.has(val)) {
 			continue
 		}
 		
+		key = accountForUnusualKeys(key)
 		const keyStr = baseKey ? `${baseKey}.${key}` : key
 		if (typeof predicate === 'function' && predicate(val)) {
 			matchingKeys.push(keyStr)

@@ -51,3 +51,20 @@ test("Prevents looping if finds circular reference", t => {
 
 	t.deepEqual(findAllKeys(a, 3), ['c'])
 })
+
+test("Doesn't recurse into null val", t => {
+	const a = { b: 1, c: null }
+
+	t.notThrows(() => {
+		const keys = findAllKeys(a, 1)
+		t.deepEqual(keys, ['b'])
+	})
+})
+
+test("Formats non-standard object keys differently", t => {
+	const a = {
+		'non.standard': 1
+	}
+
+	t.deepEqual(findAllKeys(a, 1), ['["non.standard"]'])
+})
