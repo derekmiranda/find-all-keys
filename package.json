@@ -5,9 +5,11 @@
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
-    "ava": "^0.25.0"
+    "ava": "^0.25.0",
+    "np": "^3.0.1"
   },
   "scripts": {
-    "test": "ava -T 2s"
+    "test": "ava -T 2s",
+    "pub": "np"
   }
 }
