@@ -1,6 +1,6 @@
 {
   "name": "find-all-keys",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Similar to Lodash Object find function, except returns all instances that match predicate",
   "main": "index.js",
   "license": "MIT",
